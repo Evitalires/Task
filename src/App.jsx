@@ -1,10 +1,12 @@
-import { useState } from 'react'
+'client'
+import { useEffect, useState } from 'react'
 import './App.css'
 import { Search } from './Search'
 import { List } from './List'
-import { Item } from './Task'
+import { Task } from './Task'
 import { CreateItem } from './CreateItem'
 import { CounterItems } from './CounterItems'
+
 
 
 
@@ -18,10 +20,32 @@ function App() {
     { id: 4, text: 'Complete de MySQL project', completed: false },
     { id: 5, text: 'Create a zig design', completed: true },
   ]
+  const [searchValue, setSearchValue] = useState('')
+  const [tasks, setTasks] = useState(itemsData)
+
+  const taskCompleted = tasks.filter(task => task.completed).length
+  const taskTotal = tasks.length
+  console.log(tasks);
+
+  const setCompleted = (e) => {
+
+    console.log(e.target.getAttribute('id'));
+    const id = e.target.getAttribute('id')
+
+    const updatedTasks = [...tasks];
+    updatedTasks[id].completed = !updatedTasks[id].completed;
+    setTasks(updatedTasks);
+  }
+  const searchTask = tasks.filter((task) => (
+    task
+      .text.toLowerCase()
+      .replace(/\s/g, "")
+      .includes(searchValue.toLowerCase().replace(/\s/g, ""))
+  ))
 
   return (
     <>
-      <section className='flex flex-col p-4 gap-2 items-center border-zinc-400 border-2 max-w-xs m-auto'>
+      <section className='flex flex-col p-4 gap-2 items-center border-zinc-400 border-2 rounded-md max-w-xs m-auto'>
         <h2 className='text-lg'>Create New Task</h2>
         <input type="text" placeholder="what's next?" className='block p-2 rounded-md outline-none focus:outline-violet-700' />
         <CreateItem />
@@ -31,22 +55,22 @@ function App() {
         <header className='p-8'>
           <h1 className='font-bold'>Your Tasks</h1>
         </header>
-        <Search />
+        <Search searchValue={searchValue} setSearchValue={setSearchValue} />
         <List>
           {
-            itemsData.map((item) => (
-              <Item
+            searchTask.map((item) => (
+              <Task
                 text={item.text}
                 key={item.id}
                 id={item.id}
-                complete={item.completed} />
-
+                completed={item.completed}
+                setCompleted={setCompleted} />
             ))
           }
         </List>
 
       </main>
-      <CounterItems completed={3} total={5} />
+      <CounterItems completed={taskCompleted} total={taskTotal} />
     </>
   )
 }

@@ -1,6 +1,6 @@
 function List({ children }) {
   return (
-    <ul className="grid gap-3">
+    <ul className="grid gap-5">
       {children}
     </ul>
   )

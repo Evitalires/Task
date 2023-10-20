@@ -1,6 +1,6 @@
-function CreateItem(props) {
+function CreateItem({ addTask }) {
   return (
-    <button className="w-28 hover:border-violet-700">Create</button>
+    <button className="w-28 hover:border-violet-700" onClick={addTask}>Create</button>
   )
 }
 

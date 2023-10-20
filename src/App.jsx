@@ -11,6 +11,7 @@ import { CounterItems } from './CounterItems'
 
 
 function App() {
+  /* 
   const itemsData = [
     { id: 0, text: 'Make a coffee', completed: false },
     { id: 1, text: 'Create a Crud app', completed: false },
@@ -19,11 +20,28 @@ function App() {
     { id: 4, text: 'Complete de MySQL project', completed: false },
     { id: 5, text: 'Create a zig design', completed: true },
   ]
+  const stringTask = JSON.stringify(itemsData)
+  localStorage.removeItem('TASK_V1') 
+  localStorage.setItem('TASK_V1', stringTask)
+  */
+  const initialTasks = () => {
+    const tasksStorage = JSON.parse(window.localStorage.getItem('TASK_V1')) || [];
+    window.localStorage.setItem('TASK_V1', JSON.stringify(tasksStorage));
+    return tasksStorage;
+  }
+
   const [searchValue, setSearchValue] = useState('')
-  const [tasks, setTasks] = useState(itemsData)
+  const [tasks, setTasks] = useState(initialTasks)
 
   const taskCompleted = tasks.filter(task => task.completed).length
   const taskTotal = tasks.length
+
+  const upDateTasks = (newTasks) => {
+    console.log(newTasks);
+    window.localStorage.setItem('TASK_V1', JSON.stringify(newTasks))
+    setTasks(newTasks)
+    console.log(localStorage);
+  }
 
   const setCompleted = (e) => {
     const newTasks = [...tasks]
@@ -31,7 +49,7 @@ function App() {
       (task) => task.id == e.target.getAttribute('id')
     )
     newTasks[taskIndex].completed = !newTasks[taskIndex].completed
-    setTasks(newTasks)
+    upDateTasks(newTasks)
   }
 
   const searchTask = tasks.filter((task) => (
@@ -47,7 +65,7 @@ function App() {
       (task) => task.id == e.target.parentNode.getAttribute('id')
     )
     newTasks.splice(taskIndex, 1)
-    setTasks(newTasks)
+    upDateTasks(newTasks)
   }
   const addTask = (e) => {
     console.log('New task');
@@ -59,7 +77,7 @@ function App() {
       completed: false
     }
     newTasks.push(task)
-    setTasks(newTasks)
+    upDateTasks(newTasks)
 
     input.value = ''
   }

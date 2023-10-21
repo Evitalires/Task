@@ -1,29 +1,15 @@
 'client'
 import { useState } from 'react'
 import './App.css'
-import { Search } from './Search'
-import { List } from './List'
-import { Task } from './Task'
-import { CreateItem } from './CreateItem'
-import { CounterItems } from './CounterItems'
+import { Search } from '../Search'
+import { List } from '../List'
+import { Task } from '../Task'
+import { CreateItem } from '../CreateItem'
+import { CounterItems } from '../CounterItems'
+import { useLocalStorage } from './services/useLocalStorage'
 
-
-function useLocalStorage(itemName, initialValue) {
-  console.log(itemName, initialValue);
-  const initialItems = JSON.parse(window.localStorage.getItem(itemName)) || initialValue;
-
-  const [items, setItems] = useState(initialItems)
-
-  const saveItems = (newItems) => {
-    window.localStorage.setItem(itemName, JSON.stringify(newItems))
-    setItems(newItems)
-  }
-  return [items, saveItems]
-}
 
 function App() {
-
-
   const [searchValue, setSearchValue] = useState('')
   const [tasks, setTasks] = useLocalStorage('TASK_V1', [])
 
@@ -31,11 +17,10 @@ function App() {
   const taskTotal = tasks.length
 
 
-
   const setCompleted = (e) => {
     const newTasks = [...tasks]
     const taskIndex = newTasks.findIndex(
-      (task) => task.id == e.target.getAttribute('id')
+      (task) => task.id === e.target.getAttribute('id')
     )
     newTasks[taskIndex].completed = !newTasks[taskIndex].completed
     setTasks(newTasks)
@@ -51,7 +36,7 @@ function App() {
   const deleteTask = (e) => {
     const newTasks = [...tasks]
     const taskIndex = newTasks.findIndex(
-      (task) => task.id == e.target.parentNode.getAttribute('id')
+      (task) => task.id === e.target.parentNode.getAttribute('id')
     )
     newTasks.splice(taskIndex, 1)
     setTasks(newTasks)

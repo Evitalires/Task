@@ -1,17 +1,19 @@
 'client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
-import { Search } from '../Search'
-import { List } from '../List'
-import { Task } from '../Task'
-import { CreateItem } from '../CreateItem'
-import { CounterItems } from '../CounterItems'
 import { useLocalStorage } from './services/useLocalStorage'
+import { AppUI } from './AppUI'
+
 
 
 function App() {
   const [searchValue, setSearchValue] = useState('')
-  const [tasks, setTasks] = useLocalStorage('TASK_V1', [])
+  const {
+    items: tasks,
+    saveItems: setTasks,
+    error,
+    loading
+  } = useLocalStorage('TASK_V1', [])
 
   const taskCompleted = tasks.filter(task => task.completed).length
   const taskTotal = tasks.length
@@ -56,36 +58,20 @@ function App() {
     input.value = ''
   }
 
+
   return (
-    <>
-      <section className='flex flex-col p-4 gap-2 items-center border-zinc-400 border-2 rounded-md max-w-xs m-auto'>
-        <h2 className='text-lg'>Create New Task</h2>
-        <input type="text" placeholder="what's next?" className='block p-2 rounded-md outline-none focus:outline-violet-700' />
-        <CreateItem addTask={addTask} />
-      </section>
-
-      <main className='flex flex-col gap-8 items-center'>
-        <header className='p-8'>
-          <h1 className='font-bold'>Your Tasks</h1>
-        </header>
-        <Search searchValue={searchValue} setSearchValue={setSearchValue} />
-        <List>
-          {
-            searchTask.map((item) => (
-              <Task
-                text={item.text}
-                key={item.id}
-                id={item.id}
-                completed={item.completed}
-                setCompleted={setCompleted}
-                deleteTask={deleteTask} />
-            ))
-          }
-        </List>
-
-      </main>
-      <CounterItems completed={taskCompleted} total={taskTotal} />
-    </>
+    <AppUI
+      loading={loading}
+      error={error}
+      addTask={addTask}
+      searchValue={searchValue}
+      setSearchValue={setSearchValue}
+      searchTask={searchTask}
+      setCompleted={setCompleted}
+      deleteTask={deleteTask}
+      taskCompleted={taskCompleted}
+      taskTotal={taskTotal}
+    />
   )
 }
 

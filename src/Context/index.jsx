@@ -43,19 +43,15 @@ function TasksProvider({ children }) {
     newTasks.splice(taskIndex, 1)
     setTasks(newTasks)
   }
-  const addTask = (e) => {
-    console.log('New task');
+  const addTask = (text) => {
     const newTasks = [...tasks]
-    const input = e.target.parentNode.querySelector('input')
     const task = {
-      id: input.value,
-      text: input.value,
+      id: text,
+      text: text,
       completed: false
     }
     newTasks.push(task)
     setTasks(newTasks)
-
-    input.value = ''
   }
 
 

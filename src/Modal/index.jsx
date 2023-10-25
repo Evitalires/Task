@@ -2,9 +2,9 @@ import { createPortal } from "react-dom";
 
 function Modal({ children }) {
   return createPortal(
-    <div className="Modal">
+    <section className='Modal absolute inset-0 bg-zinc-900 bg-opacity-70 w-screen h-screen '>
       {children}
-    </div>,
+    </section>,
     document.getElementById('modal')
   )
 }

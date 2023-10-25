@@ -4,9 +4,9 @@ import { Task } from '../Task'
 import { TasksLoading } from '../TasksLoading'
 import { TasksError } from '../TasksError'
 import { TasksEmpty } from '../TasksEmpty'
-import { CreateItem } from '../CreateItem'
 import { CounterItems } from '../CounterItems'
 import { Modal } from '../Modal'
+import { TaskForm } from '../TaskForm'
 
 import { TasksContext } from '../Context'
 import { useContext } from 'react'
@@ -60,16 +60,7 @@ function AppUI() {
       {
         openModal && (
           <Modal>
-            <section className='absolute inset-0 bg-zinc-900 bg-opacity-70 w-screen h-screen '>
-              <article className='absolute bg-zinc-900 inset-x-0 top-8 flex flex-col p-4 gap-2 items-center border-zinc-400 border-2 rounded-md max-w-xs m-auto'>
-                <h2 className='text-lg'>Create New Task</h2>
-                <input type="text" placeholder="what's next?" className='block p-2 rounded-md outline-none focus:outline-violet-700' />
-                <CreateItem addTask={addTask} />
-                <button
-                  className="hover:border-red-800 hover:bg-red-400 text-sm scale-75 absolute -top-4 -right-4"
-                  onClick={() => setOpenModal(false)}>x</button>
-              </article>
-            </section>
+            <TaskForm />
           </Modal>
         )
       }

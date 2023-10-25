@@ -12,6 +12,7 @@ function TasksProvider({ children }) {
     error,
     loading
   } = useLocalStorage('TASK_V1', [])
+  const [openModal, setOpenModal] = useState(false)
 
   const taskCompleted = tasks.filter(task => task.completed).length
   const taskTotal = tasks.length
@@ -34,6 +35,7 @@ function TasksProvider({ children }) {
   ))
 
   const deleteTask = (e) => {
+
     const newTasks = [...tasks]
     const taskIndex = newTasks.findIndex(
       (task) => task.id === e.target.parentNode.getAttribute('id')
@@ -69,18 +71,12 @@ function TasksProvider({ children }) {
       deleteTask,
       taskCompleted,
       taskTotal,
+      openModal,
+      setOpenModal
     }}>
       {children}
     </TasksContext.Provider>
   )
 }
-/* function TaskConsumer() {
-  return (
-    <TasksContext.Consumer>
-      
-    </TasksContext.Consumer>
-  )
-} */
-
 
 export { TasksProvider, TasksContext }

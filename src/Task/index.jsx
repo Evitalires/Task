@@ -5,7 +5,6 @@ function Task({ text, completed, id, setCompleted, deleteTask }) {
       <input type="checkbox" checked={completed && completed} readOnly id={id} onClick={setCompleted} onChange={setCompleted} />
       {text}
       <button className="hover:border-red-800 hover:bg-red-400 text-sm scale-75 absolute -top-4 -right-4" onClick={deleteTask}>x</button>
-
     </li>
   )
 }

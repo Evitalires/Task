@@ -1,51 +1,53 @@
 import { useState, useEffect } from 'react'
 
+/* const initialItems = JSON.parse(window.localStorage.getItem(itemName)) || initialValue;
+
+const [items, setItems] = useState(initialItems)
+
+const saveItems = (newItems) => {
+  window.localStorage.setItem(itemName, JSON.stringify(newItems))
+  setItems(newItems)
+}
+return [items, saveItems] */
 function useLocalStorage(itemName, initialValue) {
-  /* const initialItems = JSON.parse(window.localStorage.getItem(itemName)) || initialValue;
-
-  const [items, setItems] = useState(initialItems)
-
-  const saveItems = (newItems) => {
-    window.localStorage.setItem(itemName, JSON.stringify(newItems))
-    setItems(newItems)
-  }
-  return [items, saveItems] */
-  const initialItems = JSON.parse(window.localStorage.getItem(itemName)) || initialValue;
-  const [items, setItems] = useState(initialItems)//
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
-  
+  const [items, setItems] = useState(initialValue);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     try {
       const localStorageItem = localStorage.getItem(itemName);
-      let parsedItem;
 
-      if(!localStorageItem) {
-        window.localStorage.setItem(itemName, JSON.stringify(initialValue))
-        parsedItem = initialValue
+      if (!localStorageItem) {
+        window.localStorage.setItem(itemName, JSON.stringify(initialValue));
+        setItems(initialValue);
       } else {
-        parsedItem = JSON.parse(localStorageItem)
-        setItems(parsedItem)
+        const parsedItem = JSON.parse(localStorageItem);
+        setItems(parsedItem);
       }
 
-      setLoading(false)
-    }  
-    catch (error) {
-      setLoading(false)
-      setError(error)
+      setLoading(false);
+    } catch (error) {
+      setError(error);
+      setLoading(false);
     }
-  }, [itemName, initialValue])
+  }, []);
+
   const saveItems = (newItems) => {
-    window.localStorage.setItem(itemName, JSON.stringify(newItems))
-    setItems(newItems)
-  }
+    try {
+      window.localStorage.setItem(itemName, JSON.stringify(newItems));
+      setItems(newItems);
+    } catch (error) {
+      setError(error);
+    }
+  };
+
   return {
     items,
     saveItems,
     error,
-    loading
-  } 
+    loading,
+  };
 }
 
-export { useLocalStorage }
+export { useLocalStorage };

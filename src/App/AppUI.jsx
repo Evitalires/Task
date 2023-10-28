@@ -7,8 +7,7 @@ import { TasksEmpty } from '../TasksEmpty'
 import { CounterItems } from '../CounterItems'
 import { Modal } from '../Modal'
 import { TaskForm } from '../TaskForm'
-
-import { Button } from "@material-tailwind/react";
+import Header from '../Components/Header'
 
 import { TasksContext } from '../Context'
 import { useContext } from 'react'
@@ -30,11 +29,10 @@ function AppUI() {
   } = useContext(TasksContext)
   return (
     <>
-      <Button color="blue">color blue</Button>
-      <Button variant='filled' size='lg' color='red'>TEsts Button</Button>
-      <button onClick={() => setOpenModal(true)}>Create new task</button>
+      <Header></Header>
       <main className='flex flex-col gap-8 items-center'>
         <header className='p-8'>
+          <button onClick={() => setOpenModal(true)}>Create new task</button>
           <h1 className='font-bold'>Your Tasks</h1>
         </header>
         <Search searchValue={searchValue} setSearchValue={setSearchValue} />

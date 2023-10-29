@@ -1,3 +1,6 @@
+import { TasksContext } from '../Context'
+import { useContext } from 'react'
+
 import { Search } from '../Search'
 import { List } from '../List'
 import { Task } from '../Task'
@@ -8,9 +11,11 @@ import { CounterItems } from '../CounterItems'
 import { Modal } from '../Modal'
 import { TaskForm } from '../TaskForm'
 import Header from '../Components/Header'
+import UserTaskStatus from '../Components/UserTaskStatus'
+import Calendar from '../Components/Calendar'
 
-import { TasksContext } from '../Context'
-import { useContext } from 'react'
+
+
 
 function AppUI() {
   const {
@@ -31,6 +36,8 @@ function AppUI() {
     <>
       <Header></Header>
       <main className='flex flex-col gap-8 items-center'>
+        <UserTaskStatus />
+        <Calendar />
         <header className='p-8'>
           <button onClick={() => setOpenModal(true)}>Create new task</button>
           <h1 className='font-bold'>Your Tasks</h1>

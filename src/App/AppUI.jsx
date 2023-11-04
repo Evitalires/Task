@@ -13,24 +13,18 @@ import { TaskForm } from '../TaskForm'
 import Header from '../Components/Header'
 import UserTaskStatus from '../Components/UserTaskStatus'
 import Calendar from '../Components/Calendar'
+import TaskPreview from '../Components/TaskPreview'
 
 
 
 
 function AppUI() {
   const {
-    error,
     loading,
-    addTask,
-    searchValue,
-    setSearchValue,
     searchTask,
-    setCompleted,
-    deleteTask,
     taskCompleted,
     taskTotal,
     openModal,
-    setOpenModal,
   } = useContext(TasksContext)
   return (
     <>
@@ -38,27 +32,7 @@ function AppUI() {
       <main className='flex flex-col gap-8 items-center'>
         <UserTaskStatus />
         <Calendar />
-        <header className='p-8'>
-          <button onClick={() => setOpenModal(true)}>Create new task</button>
-          <h1 className='font-bold'>Your Tasks</h1>
-        </header>
-        <Search searchValue={searchValue} setSearchValue={setSearchValue} />
-        <List>
-          {loading && <TasksLoading />}
-          {error && <TasksError />}
-          {
-            searchTask.map((item) => (
-              <Task
-                text={item.text}
-                key={item.id}
-                id={item.id}
-                completed={item.completed}
-                setCompleted={setCompleted}
-                deleteTask={deleteTask} />
-            ))
-          }
-        </List>
-
+        <TaskPreview />
       </main>
       {
         (!loading && searchTask.length === 0)

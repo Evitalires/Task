@@ -1,9 +1,10 @@
-import { useContext } from "react"
-import { TasksContext } from "../../Context"
+import SearchTasks from "../SearchTasks"
 
 export default function TaskPreviewFinished() {
-  const { setOpenModal } = useContext(TasksContext)
   return (
-    <button onClick={() => setOpenModal(true)}>Create new task</button>
+    <p>
+      <SearchTasks />
+      Finished tasks...
+    </p>
   )
 }

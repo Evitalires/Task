@@ -1,9 +1,9 @@
-import { Check } from "../Icons"
+import { IconCheck } from "../Icons"
 
 function Logo() {
   return (
     <picture className="flex font-bold gap-3 text-blue-500">
-      <Check />
+      <IconCheck />
       <p>Task App</p>
     </picture>
   )

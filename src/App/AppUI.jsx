@@ -1,11 +1,6 @@
 import { TasksContext } from '../Context'
 import { useContext } from 'react'
 
-import { Search } from '../Search'
-import { List } from '../List'
-import { Task } from '../Task'
-import { TasksLoading } from '../TasksLoading'
-import { TasksError } from '../TasksError'
 import { TasksEmpty } from '../TasksEmpty'
 import { CounterItems } from '../CounterItems'
 import { Modal } from '../Modal'

@@ -57,6 +57,7 @@ function TasksProvider({ children }) {
 
   return (
     <TasksContext.Provider value={{
+      tasks,
       error,
       loading,
       addTask,

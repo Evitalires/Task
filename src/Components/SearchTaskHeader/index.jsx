@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { TasksContext } from "../../Context"
 import { Search } from "../../Search"
-import { NewTask } from "../NewTask"
+import NewTask from "../NewTask"
 
 export default function SearchTaskHeader() {
   const {

@@ -3,7 +3,7 @@ import { CreateItem } from "../CreateItem"
 import { TasksContext } from "../Context"
 
 
-function TaskForm() {
+function TaskForme() {
   const { addTask, setOpenModal } = useContext(TasksContext)
   const [newTask, setNewTask] = useState('')
   const onSubmit = (e) => {
@@ -29,4 +29,51 @@ function TaskForm() {
   )
 }
 
-export { TaskForm } 
+import {
+  Button,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+} from "@material-tailwind/react";
+
+export function TaskForm() {
+  const { openModal, addTask, setOpenModal } = useContext(TasksContext)
+  const [newTask, setNewTask] = useState('')
+  const onSubmit = (e) => {
+    e.preventDefault()
+    addTask(newTask)
+    setNewTask('')
+    setOpenModal(false)
+  }
+  const onChange = (e) => {
+    setNewTask(e.target.value)
+  }
+
+  return (
+    <>
+
+      <Dialog open={openModal} handler={setOpenModal}>
+        <DialogHeader>New Task</DialogHeader>
+        <DialogBody>
+          <form onSubmit={onSubmit} className=" flex w-full">
+            <textarea className="w-full flex flex-1 p-2 rounded-md outline-none focus:outline-violet-700" type="text" placeholder="what's next?" onChange={onChange} value={newTask} className='block p-2 min-h-min rounded-md outline-none focus:outline-violet-700' />
+          </form>
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            variant="text"
+            color="red"
+            onClick={() => setOpenModal(false)}
+            className="mr-1"
+          >
+            <span>Cancel</span>
+          </Button>
+          <Button variant="gradient" color="blue" onClick={onSubmit}>
+            <span>Create</span>
+          </Button>
+        </DialogFooter>
+      </Dialog>
+    </>
+  );
+}

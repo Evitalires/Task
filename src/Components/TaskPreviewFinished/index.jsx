@@ -1,10 +1,19 @@
-import SearchTasks from "../SearchTasks"
+import SearchTasks from "../SearchTasks";
+import TaskCollapse from "../TaskCollapse";
+import { TasksContext } from "../../Context";
+import { useContext } from "react";
 
 export default function TaskPreviewFinished() {
+  const { tasks } = useContext(TasksContext);
   return (
-    <p>
+    <div>
       <SearchTasks />
       Finished tasks...
-    </p>
-  )
+      {tasks.map((task) => {
+        if (task.status === "FINISHED") {
+          return <TaskCollapse key={task.id} task={task} />;
+        }
+      })}
+    </div>
+  );
 }

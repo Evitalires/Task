@@ -1,33 +1,5 @@
-import { useContext, useState } from "react"
-import { CreateItem } from "../CreateItem"
-import { TasksContext } from "../Context"
-
-
-function TaskForme() {
-  const { addTask, setOpenModal } = useContext(TasksContext)
-  const [newTask, setNewTask] = useState('')
-  const onSubmit = (e) => {
-    e.preventDefault()
-    addTask(newTask)
-    setNewTask('')
-    setOpenModal(false)
-  }
-  const onChange = (e) => {
-    setNewTask(e.target.value)
-  }
-  return (
-    <form
-      onSubmit={onSubmit}
-      className='absolute bg-zinc-900 inset-x-0 top-8 flex flex-col p-4 gap-2 items-center border-zinc-400 border-2 rounded-md max-w-xs m-auto'>
-      <h2 className='text-lg'>Create New Task</h2>
-      <textarea type="text" placeholder="what's next?" onChange={onChange} value={newTask} className='block p-2 min-h-min rounded-md outline-none focus:outline-violet-700' />
-      <CreateItem addTask={onSubmit} />
-      <button
-        className="hover:border-red-800 hover:bg-red-400 border-white text-sm scale-75 absolute -top-4 -right-4"
-        onClick={() => setOpenModal(false)}>x</button>
-    </form>
-  )
-}
+import { useContext, useState } from "react";
+import { TasksContext } from "../Context";
 
 import {
   Button,
@@ -35,45 +7,109 @@ import {
   DialogHeader,
   DialogBody,
   DialogFooter,
+  Input,
+  Select,
+  Option,
 } from "@material-tailwind/react";
 
 export function TaskForm() {
-  const { openModal, addTask, setOpenModal } = useContext(TasksContext)
-  const [newTask, setNewTask] = useState('')
+  const { openModal, addTask, setOpenModal } = useContext(TasksContext);
+  const newTaskFormat = {
+    id: "",
+    task: "",
+    taskDetails: "",
+    category: "",
+    dateCreation: "",
+    timeCreation: "",
+    repeat: "",
+    timeReminder: "",
+    dateReminder: "",
+    status: "" /* ACTIVE | FINISHED | COMPLETED */,
+  };
+  const [newTask, setNewTask] = useState(newTaskFormat);
   const onSubmit = (e) => {
-    e.preventDefault()
-    addTask(newTask)
-    setNewTask('')
-    setOpenModal(false)
-  }
-  const onChange = (e) => {
-    setNewTask(e.target.value)
-  }
+    e.preventDefault();
 
+    let copyNewTask = { ...newTask };
+    copyNewTask.id = Date.now();
+    copyNewTask.dateCreation = new Date().toLocaleDateString();
+    copyNewTask.timeCreation = new Date().toLocaleTimeString();
+    copyNewTask.status = "ACTIVE";
+
+    addTask(newTask);
+    setNewTask(newTaskFormat);
+    setOpenModal(false);
+  };
+
+  const setNewTaskProperty = (e, property) => {
+    let copyNewTask = { ...newTask };
+    copyNewTask[property] = e.target.value;
+    setNewTask(copyNewTask);
+  };
+  const setNewTaskCategory = (value) => {
+    let copyNewTask = { ...newTask };
+    copyNewTask.category = value;
+    setNewTask(copyNewTask);
+  };
   return (
-    <>
-
-      <Dialog open={openModal} handler={setOpenModal}>
-        <DialogHeader>New Task</DialogHeader>
-        <DialogBody>
-          <form onSubmit={onSubmit} className=" flex w-full">
-            <textarea className="w-full flex flex-1 p-2 rounded-md outline-none focus:outline-violet-700" type="text" placeholder="what's next?" onChange={onChange} value={newTask} className='block p-2 min-h-min rounded-md outline-none focus:outline-violet-700' />
-          </form>
-        </DialogBody>
-        <DialogFooter>
-          <Button
-            variant="text"
-            color="red"
-            onClick={() => setOpenModal(false)}
-            className="mr-1"
+    <Dialog open={openModal} handler={setOpenModal}>
+      <DialogHeader>Task Form</DialogHeader>
+      <DialogBody>
+        <form
+          onSubmit={onSubmit}
+          className=" flex flex-col gap-6 w-full min-h-min"
+        >
+          <Input
+            type="text"
+            color="blue"
+            label="Task"
+            onChange={(e) => setNewTaskProperty(e, "task")}
+          />
+          <Input
+            type="text"
+            color="blue"
+            label="Add Details"
+            onChange={(e) => setNewTaskProperty(e, "taskDetails")}
+          />
+          <Select
+            size="md"
+            color="blue"
+            label="Category"
+            onChange={setNewTaskCategory}
           >
-            <span>Cancel</span>
-          </Button>
-          <Button variant="gradient" color="blue" onClick={onSubmit}>
-            <span>Create</span>
-          </Button>
-        </DialogFooter>
-      </Dialog>
-    </>
+            <Option value="Study"> Study </Option>
+            <Option value="Hobby"> Hobby</Option>
+            <Option value="Work"> Work</Option>
+            <Option value="Personal"> Personal </Option>
+            <Option value="Other"> Other </Option>
+          </Select>
+          <Input
+            type="date"
+            color="blue"
+            label="Day"
+            onChange={(e) => setNewTaskProperty(e, "dateReminder")}
+          />
+          <Input
+            type="time"
+            color="blue"
+            label="Set time"
+            onChange={(e) => setNewTaskProperty(e, "timeReminder")}
+          />
+        </form>
+      </DialogBody>
+      <DialogFooter>
+        <Button
+          variant="text"
+          color="red"
+          onClick={(e) => setOpenModal(false)}
+          className="mr-1"
+        >
+          <span>Cancel</span>
+        </Button>
+        <Button variant="gradient" color="blue" onClick={onSubmit}>
+          <span>Create</span>
+        </Button>
+      </DialogFooter>
+    </Dialog>
   );
 }

@@ -4,47 +4,56 @@ import {
   Card,
   Typography,
   CardBody,
-  Checkbox
+  Checkbox,
 } from "@material-tailwind/react";
 import { IconChevronDown } from "../Icons";
 import { useState } from "react";
 
-export default function TaskCollapse({ taskDescription, taskDetail, taskType }) {
+export default function TaskCollapse(task) {
+  console.log(task, "TaskCollapse");
   const [open, setOpen] = useState(false);
+  const description = task.description || "taskDescription";
+  const category = task.category || "taskCategory";
 
   const toggleOpen = () => setOpen((cur) => !cur);
-
+  const setFinished = () => {};
   return (
     <>
-      <Card className="mx-auto w-full">
-        <CardBody className="flex items-center">
-          <Checkbox
-            ripple={false}
-            color="blue"
-            className="h-8 w-8 rounded-full transition-all hover:scale-105 hover:before:opacity-0"
-          />
-          <div className="text-left flex-1">
-            <Typography variant="h6" color="gray" >
-              {taskDetail || 'taskDetail'}
-            </Typography>
-            <Typography variant="small" color="gray">
-
-              {taskType || 'taskType'}
-            </Typography>
+      <Card className="mx-auto w-full flex">
+        <CardBody>
+          <div className="w-full flex">
+            <Checkbox
+              onClick={() => setFinished()}
+              ripple={false}
+              color="blue"
+              className="h-8 w-8 rounded-full transition-all hover:scale-105 hover:before:opacity-0"
+            />
+            <div className="text-left flex-1">
+              <Typography variant="h6" color="gray">
+                {"taskDescription"}
+              </Typography>
+              <Typography variant="small" color="gray">
+                {"taskCategory"}
+              </Typography>
+            </div>
+            <Button
+              onClick={toggleOpen}
+              color="blue"
+              className="p-0 bg-transparent shadow-none text-black"
+            >
+              {" "}
+              <IconChevronDown />{" "}
+            </Button>
           </div>
-          <Button onClick={toggleOpen} color="blue" className="p-0 bg-transparent shadow-none text-black"> <IconChevronDown /> </Button>
+          <Collapse open={open}>
+            <Card className="h-auto mx-auto w-full">
+              <CardBody>
+                <Typography>{"taskDescription :)"}</Typography>
+              </CardBody>
+            </Card>
+          </Collapse>
         </CardBody>
       </Card>
-
-      <Collapse open={open}>
-        <Card className="mx-auto w-full">
-          <CardBody>
-            <Typography>
-              {taskDescription || 'taskDescription'}
-            </Typography>
-          </CardBody>
-        </Card>
-      </Collapse>
     </>
   );
 }

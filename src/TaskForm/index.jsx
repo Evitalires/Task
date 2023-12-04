@@ -27,16 +27,26 @@ export function TaskForm() {
     status: "" /* ACTIVE | FINISHED | COMPLETED */,
   };
   const [newTask, setNewTask] = useState(newTaskFormat);
+  const generateID = () => {
+    let id = "";
+    let chars =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (let i = 0; i < 8; i++) {
+      id += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    console.log(id, "generateID");
+    return id;
+  };
   const onSubmit = (e) => {
     e.preventDefault();
 
     let copyNewTask = { ...newTask };
-    copyNewTask.id = Date.now();
+    copyNewTask.id = generateID();
     copyNewTask.dateCreation = new Date().toLocaleDateString();
     copyNewTask.timeCreation = new Date().toLocaleTimeString();
     copyNewTask.status = "ACTIVE";
 
-    addTask(newTask);
+    addTask(copyNewTask);
     setNewTask(newTaskFormat);
     setOpenModal(false);
   };

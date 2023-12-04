@@ -10,7 +10,7 @@ export default function TaskPreviewActive() {
   return (
     <section className="flex flex-col gap-4">
       <SearchTask />
-      <div>
+      {/* <div>
         <Typography variant="h5" className="text-left">
           Today
         </Typography>
@@ -22,6 +22,7 @@ export default function TaskPreviewActive() {
         </Typography>
         <TaskCollapse />
       </div>
+       */}
       <div>
         <Typography variant="h5" className="text-left">
           All

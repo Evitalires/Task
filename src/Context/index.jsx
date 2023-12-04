@@ -26,15 +26,17 @@ function TasksProvider({ children }) {
   } = useLocalStorage("TASK_V1", []);
   const [openModal, setOpenModal] = useState(false);
 
-  const taskCompleted = tasks.filter((task) => task.completed).length;
+  const taskFinished = tasks.filter(
+    (task) => task.status === "FINISHED",
+  ).length;
   const taskTotal = tasks.length;
 
-  const setCompleted = (e) => {
+  const setCompleted = (id) => {
+    console.log(id, "setCompleted");
     const newTasks = [...tasks];
-    const taskIndex = newTasks.findIndex(
-      (task) => task.id === e.target.getAttribute("id"),
-    );
-    newTasks[taskIndex].completed = !newTasks[taskIndex].completed;
+    const taskIndex = newTasks.findIndex((task) => task.id === id);
+    console.log(newTasks[taskIndex], "setCompleted");
+    newTasks[taskIndex].status = "COMPLETED";
     setTasks(newTasks);
   };
 
@@ -79,7 +81,7 @@ function TasksProvider({ children }) {
         searchTask,
         setCompleted,
         deleteTask,
-        taskCompleted,
+        taskFinished,
         taskTotal,
         openModal,
         setOpenModal,

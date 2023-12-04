@@ -10,7 +10,7 @@ export default function TaskPreviewFinished() {
       <SearchTasks />
       Finished tasks...
       {tasks.map((task) => {
-        if (task.status === "FINISHED") {
+        if (task.status === "COMPLETED") {
           return <TaskCollapse key={task.id} task={task} />;
         }
       })}

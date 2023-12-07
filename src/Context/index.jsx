@@ -31,12 +31,10 @@ function TasksProvider({ children }) {
   ).length;
   const taskTotal = tasks.length;
 
-  const setCompleted = (id) => {
-    console.log(id, "setCompleted");
+  const setFinished = (id) => {
     const newTasks = [...tasks];
     const taskIndex = newTasks.findIndex((task) => task.id === id);
-    console.log(newTasks[taskIndex], "setCompleted");
-    newTasks[taskIndex].status = "COMPLETED";
+    newTasks[taskIndex].status = "FINISHED";
     setTasks(newTasks);
   };
 
@@ -79,7 +77,7 @@ function TasksProvider({ children }) {
         searchValue,
         setSearchValue,
         searchTask,
-        setCompleted,
+        setFinished,
         deleteTask,
         taskFinished,
         taskTotal,

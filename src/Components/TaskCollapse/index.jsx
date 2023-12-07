@@ -11,7 +11,7 @@ import { useState, useContext } from "react";
 import { TasksContext } from "../../Context";
 
 export default function TaskCollapse({ task }) {
-  const { setCompleted } = useContext(TasksContext);
+  const { setFinished } = useContext(TasksContext);
   const [open, setOpen] = useState(false);
   const toggleOpen = () => setOpen((cur) => !cur);
 
@@ -21,7 +21,7 @@ export default function TaskCollapse({ task }) {
         <CardBody>
           <div className="w-full flex">
             <Checkbox
-              onClick={() => setCompleted(task.id)}
+              onClick={() => setFinished(task.id)}
               ripple={false}
               color="blue"
               className="h-8 w-8 rounded-full transition-all hover:scale-105 hover:before:opacity-0"

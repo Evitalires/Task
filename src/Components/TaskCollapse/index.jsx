@@ -1,25 +1,37 @@
 import {
   Collapse,
-  Button,
   Card,
   Typography,
   CardBody,
+  CardFooter,
   Checkbox,
 } from "@material-tailwind/react";
-import { IconChevronDown } from "../Icons";
+import { IconChevronDown, IconEdit, IconTrash } from "../Icons";
 import { useState, useContext } from "react";
 import { TasksContext } from "../../Context";
 
 export default function TaskCollapse({ task }) {
-  const { setFinished } = useContext(TasksContext);
+  const { setFinished, deleteTask } = useContext(TasksContext);
   const [open, setOpen] = useState(false);
   const toggleOpen = () => setOpen((cur) => !cur);
+
+  function formatTime12Hour(militaryTime) {
+    const [hours, minutes] = militaryTime.split(":");
+    const date = new Date();
+    date.setHours(parseInt(hours, 10));
+    date.setMinutes(parseInt(minutes, 10));
+    return date.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    });
+  }
 
   return (
     <>
       <Card className="mx-auto w-full flex">
-        <CardBody>
-          <div className="w-full flex">
+        <CardBody className="p-2">
+          <div className="w-full flex items-center">
             <Checkbox
               onClick={() => setFinished(task.id)}
               ripple={false}
@@ -34,14 +46,11 @@ export default function TaskCollapse({ task }) {
                 {task.category}
               </Typography>
             </div>
-            <Button
+            <IconChevronDown
               onClick={toggleOpen}
               color="blue"
-              className="p-0 bg-transparent shadow-none text-black"
-            >
-              {" "}
-              <IconChevronDown />{" "}
-            </Button>
+              className="p-0 bg-transparent shadow-none text-black cursor-pointer"
+            />
           </div>
           <Collapse open={open}>
             <Card className="h-auto mx-auto w-full">
@@ -51,6 +60,18 @@ export default function TaskCollapse({ task }) {
             </Card>
           </Collapse>
         </CardBody>
+        <CardFooter className="p-2 pl-4 pr-2 flex ">
+          <div className="flex flex-1 gap-2">
+            <Typography className="py-1 px-2 bg-gray-200 rounded-lg text-gray-600 hover:bg-gray-300">
+              {formatTime12Hour(task.timeReminder)}
+            </Typography>
+            <Typography className="py-1 px-2 bg-gray-200 rounded-lg text-gray-600 hover:bg-gray-300">
+              {task.dateReminder}
+            </Typography>
+          </div>
+          <IconEdit />
+          <IconTrash onClick={deleteTask} />
+        </CardFooter>
       </Card>
     </>
   );

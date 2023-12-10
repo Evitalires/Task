@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { TasksContext } from "../Context";
+import { TasksContext } from "../../Context";
 
 import {
   Button,
@@ -12,9 +12,10 @@ import {
   Option,
 } from "@material-tailwind/react";
 
-export function TaskForm() {
-  const { openModal, addTask, setOpenModal } = useContext(TasksContext);
-  const newTaskFormat = {
+export function TaskForm(task) {
+  const { openModal, addTask, setOpenModal, tasks, setTasks } =
+    useContext(TasksContext);
+  const newTaskFormat = task.task || {
     id: "",
     task: "",
     taskDetails: "",
@@ -26,6 +27,8 @@ export function TaskForm() {
     dateReminder: "",
     status: "" /* ACTIVE | FINISHED | COMPLETED */,
   };
+  console.log(newTaskFormat, "newTaskFormat");
+  console.log(newTaskFormat.task, "newTaskFormat.task");
   const [newTask, setNewTask] = useState(newTaskFormat);
   const generateID = () => {
     let id = "";
@@ -40,14 +43,20 @@ export function TaskForm() {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    let copyNewTask = { ...newTask };
-    copyNewTask.id = generateID();
-    copyNewTask.dateCreation = new Date().toLocaleDateString();
-    copyNewTask.timeCreation = new Date().toLocaleTimeString();
-    copyNewTask.status = "ACTIVE";
+    if (task) {
+      let copyTasks = [...tasks];
+      copyTasks[newTask.id] = newTask;
+      setTasks(copyTasks);
+    } else {
+      let copyNewTask = { ...newTask };
+      copyNewTask.id = generateID();
+      copyNewTask.dateCreation = new Date().toLocaleDateString();
+      copyNewTask.timeCreation = new Date().toLocaleTimeString();
+      copyNewTask.status = "ACTIVE";
 
-    addTask(copyNewTask);
-    setNewTask(newTaskFormat);
+      addTask(copyNewTask);
+      setNewTask(newTaskFormat);
+    }
     setOpenModal(false);
   };
 
@@ -74,18 +83,21 @@ export function TaskForm() {
             color="blue"
             label="Task"
             onChange={(e) => setNewTaskProperty(e, "task")}
+            value={newTask.task}
           />
           <Input
             type="text"
             color="blue"
-            label="Add Details"
             onChange={(e) => setNewTaskProperty(e, "taskDetails")}
+            label="Add Details"
+            value={newTask.taskDetails}
           />
           <Select
             size="md"
             color="blue"
             label="Category"
             onChange={setNewTaskCategory}
+            selected={newTask.category}
           >
             <Option value="Study"> Study </Option>
             <Option value="Hobby"> Hobby</Option>
@@ -98,12 +110,14 @@ export function TaskForm() {
             color="blue"
             label="Day"
             onChange={(e) => setNewTaskProperty(e, "dateReminder")}
+            value={newTaskFormat.dateReminder}
           />
           <Input
             type="time"
             color="blue"
             label="Set time"
             onChange={(e) => setNewTaskProperty(e, "timeReminder")}
+            value={newTaskFormat.timeReminder}
           />
         </form>
       </DialogBody>
@@ -117,7 +131,7 @@ export function TaskForm() {
           <span>Cancel</span>
         </Button>
         <Button variant="gradient" color="blue" onClick={onSubmit}>
-          <span>Create</span>
+          <span>Save</span>
         </Button>
       </DialogFooter>
     </Dialog>

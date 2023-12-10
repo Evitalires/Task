@@ -9,13 +9,15 @@ import {
 import { IconChevronDown, IconEdit, IconTrash } from "../Icons";
 import { useState, useContext } from "react";
 import { TasksContext } from "../../Context";
+import { TaskForm } from "../TaskForm";
 
 export default function TaskCollapse({ task }) {
-  const { setFinished, deleteTask } = useContext(TasksContext);
+  const { setFinished, deleteTask, setComponentModal, setOpenModal } =
+    useContext(TasksContext);
   const [open, setOpen] = useState(false);
   const toggleOpen = () => setOpen((cur) => !cur);
 
-  function formatTime12Hour(militaryTime) {
+  const formatTime12Hour = (militaryTime) => {
     const [hours, minutes] = militaryTime.split(":");
     const date = new Date();
     date.setHours(parseInt(hours, 10));
@@ -25,7 +27,12 @@ export default function TaskCollapse({ task }) {
       minute: "numeric",
       hour12: true,
     });
-  }
+  };
+  const editTask = () => {
+    // Handle edit task logic
+    setComponentModal(<TaskForm task={task} />);
+    setOpenModal(true);
+  };
 
   return (
     <>
@@ -69,7 +76,7 @@ export default function TaskCollapse({ task }) {
               {task.dateReminder}
             </Typography>
           </div>
-          <IconEdit />
+          <IconEdit onClick={editTask} />
           <IconTrash onClick={deleteTask} />
         </CardFooter>
       </Card>

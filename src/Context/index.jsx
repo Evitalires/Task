@@ -18,6 +18,7 @@ const TasksContext = createContext();
 
 function TasksProvider({ children }) {
   const [searchValue, setSearchValue] = useState("");
+  const [componentModal, setComponentModal] = useState(null);
   const {
     items: tasks,
     saveItems: setTasks,
@@ -37,7 +38,6 @@ function TasksProvider({ children }) {
     newTasks[taskIndex].status = "FINISHED";
     setTasks(newTasks);
   };
-
   const searchTask = tasks.filter((task) =>
     task.task
       .toLowerCase()
@@ -71,6 +71,7 @@ function TasksProvider({ children }) {
     <TasksContext.Provider
       value={{
         tasks,
+        setTasks,
         error,
         loading,
         addTask,
@@ -82,6 +83,8 @@ function TasksProvider({ children }) {
         taskFinished,
         taskTotal,
         openModal,
+        componentModal,
+        setComponentModal,
         setOpenModal,
         finishTask,
       }}

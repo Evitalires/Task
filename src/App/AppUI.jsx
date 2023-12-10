@@ -4,15 +4,21 @@ import { useContext } from "react";
 import { TasksEmpty } from "../TasksEmpty";
 import { CounterItems } from "../CounterItems";
 import { Modal } from "../Modal";
-import { TaskForm } from "../TaskForm";
+import { TaskForm } from "../Components/TaskForm";
 import Header from "../Components/Header";
 import UserTaskStatus from "../Components/UserTaskStatus";
 import Calendar from "../Components/Calendar";
 import TaskPreview from "../Components/TaskPreview";
 
 function AppUI() {
-  const { loading, searchTask, taskCompleted, taskTotal, openModal } =
-    useContext(TasksContext);
+  const {
+    loading,
+    searchTask,
+    taskCompleted,
+    taskTotal,
+    openModal,
+    componentModal,
+  } = useContext(TasksContext);
   return (
     <>
       <Header></Header>
@@ -27,11 +33,7 @@ function AppUI() {
         <CounterItems completed={taskCompleted} total={taskTotal} />
       )}
 
-      {openModal && (
-        <Modal>
-          <TaskForm /> {/* NewTaskForm */}
-        </Modal>
-      )}
+      {openModal && <Modal>{componentModal || <TaskForm />}</Modal>}
     </>
   );
 }

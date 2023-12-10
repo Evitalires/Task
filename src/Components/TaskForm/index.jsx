@@ -12,10 +12,10 @@ import {
   Option,
 } from "@material-tailwind/react";
 
-export function TaskForm(task) {
+export function TaskForm({ task }) {
   const { openModal, addTask, setOpenModal, tasks, setTasks } =
     useContext(TasksContext);
-  const newTaskFormat = task.task || {
+  const format = {
     id: "",
     task: "",
     taskDetails: "",
@@ -27,8 +27,7 @@ export function TaskForm(task) {
     dateReminder: "",
     status: "" /* ACTIVE | FINISHED | COMPLETED */,
   };
-  console.log(newTaskFormat, "newTaskFormat");
-  console.log(newTaskFormat.task, "newTaskFormat.task");
+  const newTaskFormat = { ...task } || format;
   const [newTask, setNewTask] = useState(newTaskFormat);
   const generateID = () => {
     let id = "";
@@ -43,10 +42,12 @@ export function TaskForm(task) {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if (task) {
+    if (task.task != undefined) {
       let copyTasks = [...tasks];
-      copyTasks[newTask.id] = newTask;
-      setTasks(copyTasks);
+      let indexNewTask = copyTasks.findIndex((task) => task.id === newTask.id);
+      copyTasks[indexNewTask] = newTask;
+      setTasks([...copyTasks]);
+      setNewTask(format);
     } else {
       let copyNewTask = { ...newTask };
       copyNewTask.id = generateID();
@@ -110,14 +111,14 @@ export function TaskForm(task) {
             color="blue"
             label="Day"
             onChange={(e) => setNewTaskProperty(e, "dateReminder")}
-            value={newTaskFormat.dateReminder}
+            /* value={newTaskFormat.dateReminder} */
           />
           <Input
             type="time"
             color="blue"
             label="Set time"
             onChange={(e) => setNewTaskProperty(e, "timeReminder")}
-            value={newTaskFormat.timeReminder}
+            /* value={newTaskFormat.timeReminder} */
           />
         </form>
       </DialogBody>

@@ -23,7 +23,7 @@ export default function TasksToday() {
   const tasksToday = filterTasksForToday(tasks);
   if (tasksToday.length > 0) {
     return (
-      <div>
+      <div className="flex flex-col gap-4">
         <Typography variant="h5" className="text-left">
           Today
         </Typography>

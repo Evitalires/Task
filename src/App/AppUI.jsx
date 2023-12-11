@@ -33,7 +33,7 @@ function AppUI() {
         <CounterItems completed={taskCompleted} total={taskTotal} />
       )}
 
-      {openModal && <Modal>{componentModal || <TaskForm />}</Modal>}
+      {openModal && <Modal>{componentModal || <TaskForm type="new" />}</Modal>}
     </>
   );
 }

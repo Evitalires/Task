@@ -14,7 +14,7 @@ export default function TaskPreviewActive() {
       <TasksToday />
       <TasksTomorrow />
 
-      <div>
+      <div className="flex flex-col gap-4">
         <Typography variant="h5" className="text-left">
           All
         </Typography>

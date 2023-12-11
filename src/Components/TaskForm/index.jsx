@@ -12,7 +12,7 @@ import {
   Option,
 } from "@material-tailwind/react";
 
-export function TaskForm({ task }) {
+export function TaskForm({ task, type }) {
   const { openModal, addTask, setOpenModal, tasks, setTasks } =
     useContext(TasksContext);
   const format = {
@@ -27,8 +27,7 @@ export function TaskForm({ task }) {
     dateReminder: "",
     status: "" /* ACTIVE | FINISHED | COMPLETED */,
   };
-  const newTaskFormat = { ...task } || format;
-  const [newTask, setNewTask] = useState(newTaskFormat);
+  const [newTask, setNewTask] = useState({ ...task } || format);
   const generateID = () => {
     let id = "";
     let chars =
@@ -41,8 +40,9 @@ export function TaskForm({ task }) {
   };
   const onSubmit = (e) => {
     e.preventDefault();
+    console.log(newTask, "newTask");
 
-    if (task.task != undefined) {
+    if (type !== "new") {
       let copyTasks = [...tasks];
       let indexNewTask = copyTasks.findIndex((task) => task.id === newTask.id);
       copyTasks[indexNewTask] = newTask;
@@ -56,7 +56,7 @@ export function TaskForm({ task }) {
       copyNewTask.status = "ACTIVE";
 
       addTask(copyNewTask);
-      setNewTask(newTaskFormat);
+      setNewTask(format);
     }
     setOpenModal(false);
   };
@@ -71,9 +71,13 @@ export function TaskForm({ task }) {
     copyNewTask.category = value;
     setNewTask(copyNewTask);
   };
+  const handleClose = (e) => {
+    setNewTask(format);
+    setOpenModal(false);
+  };
   return (
-    <Dialog open={openModal} handler={setOpenModal}>
-      <DialogHeader>Task Form</DialogHeader>
+    <Dialog open={openModal} handler={handleClose}>
+      <DialogHeader>Task Form </DialogHeader>
       <DialogBody>
         <form
           onSubmit={onSubmit}
@@ -96,7 +100,7 @@ export function TaskForm({ task }) {
           <Select
             size="md"
             color="blue"
-            label="Category"
+            label={newTask.category || "Category"}
             onChange={setNewTaskCategory}
             selected={newTask.category}
           >
@@ -111,14 +115,14 @@ export function TaskForm({ task }) {
             color="blue"
             label="Day"
             onChange={(e) => setNewTaskProperty(e, "dateReminder")}
-            /* value={newTaskFormat.dateReminder} */
+            value={newTask.dateReminder}
           />
           <Input
             type="time"
             color="blue"
             label="Set time"
             onChange={(e) => setNewTaskProperty(e, "timeReminder")}
-            /* value={newTaskFormat.timeReminder} */
+            value={newTask.timeReminder}
           />
         </form>
       </DialogBody>
@@ -126,7 +130,7 @@ export function TaskForm({ task }) {
         <Button
           variant="text"
           color="red"
-          onClick={(e) => setOpenModal(false)}
+          onClick={handleClose}
           className="mr-1"
         >
           <span>Cancel</span>

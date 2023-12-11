@@ -31,7 +31,7 @@ export default function TasksTomorrow() {
 
   if (tasksTomorrow.length > 0) {
     return (
-      <div>
+      <div className="flex flex-col gap-4">
         <Typography variant="h5" className="text-left">
           Tomorrow
         </Typography>

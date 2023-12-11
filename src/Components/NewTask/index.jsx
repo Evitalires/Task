@@ -4,10 +4,14 @@ import { useContext } from "react";
 import { TasksContext } from "../../Context";
 
 export default function NewTask() {
-  const { setOpenModal } = useContext(TasksContext);
+  const { setOpenModal, setComponentModal } = useContext(TasksContext);
+  const onNewTask = () => {
+    setComponentModal("");
+    setOpenModal(true);
+  };
   return (
     <Button
-      onClick={() => setOpenModal(true)}
+      onClick={onNewTask}
       className="flex items-center gap-2 min-w-fit bg-blue-700 "
     >
       New Task

@@ -1,7 +1,7 @@
 import { Typography, Button, Checkbox } from "@material-tailwind/react";
 import { IconTrash, IconEdit } from "../Icons";
 
-function Task({ text, id, setCompleted, deleteTask }) {
+function Task({ text, id, setCompleted, deleteTask, editTask }) {
   return (
     <li
       className="text-left pe-4 rounded-lg hover:bg-gray-200 flex items-center gap-2 cursor-pointer "
@@ -23,7 +23,7 @@ function Task({ text, id, setCompleted, deleteTask }) {
           {text}
         </Typography>
       </div>
-      <IconEdit />
+      <IconEdit onClick={editTask} />
       <IconTrash onClick={deleteTask} />
     </li>
   );

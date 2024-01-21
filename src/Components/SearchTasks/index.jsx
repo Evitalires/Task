@@ -10,7 +10,7 @@ import { TaskForm } from "../TaskForm";
 export default function SearchTasks() {
   const {
     error,
-    setCompleted,
+    setStatus,
     deleteTask,
     loading,
     searchTask,
@@ -18,10 +18,10 @@ export default function SearchTasks() {
     setComponentModal,
     setOpenModal,
   } = useContext(TasksContext);
-  const onEditTask = (task) => {
-    console.log(task.id, "searchTask");
+  const onEditTask = (item) => {
+    console.log(item, "searchTask");
     // Handle edit task logic
-    setComponentModal(<TaskForm task={task} />);
+    setComponentModal(<TaskForm task={item} />);
     setOpenModal(true);
   };
   return (
@@ -37,9 +37,9 @@ export default function SearchTasks() {
               key={item.id}
               id={item.id}
               status={item.status}
-              setCompleted={setCompleted}
+              setFinished={() => setStatus(item.id, "FINISHED")}
               deleteTask={deleteTask}
-              editTask={onEditTask}
+              editTask={() => onEditTask(item)}
             />
           ))}
       </List>

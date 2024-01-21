@@ -9,6 +9,7 @@ import Header from "../Components/Header";
 import UserTaskStatus from "../Components/UserTaskStatus";
 import Calendar from "../Components/Calendar";
 import TaskPreview from "../Components/TaskPreview";
+import TaskStats from "../Components/TaskStats";
 
 function AppUI() {
   const {
@@ -26,6 +27,7 @@ function AppUI() {
         <UserTaskStatus />
         <Calendar />
         <TaskPreview />
+        <TaskStats />
       </main>
       {!loading && searchTask.length === 0 ? (
         <TasksEmpty />

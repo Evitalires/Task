@@ -38,6 +38,12 @@ function TasksProvider({ children }) {
     newTasks[taskIndex].status = "FINISHED";
     setTasks(newTasks);
   };
+  const setStatus = (id, status) => {
+    const newTasks = [...tasks];
+    const taskIndex = newTasks.findIndex((task) => task.id === id);
+    newTasks[taskIndex].status = status;
+    setTasks(newTasks);
+  };
   const searchTask = tasks.filter((task) =>
     task.task
       .toLowerCase()
@@ -78,6 +84,7 @@ function TasksProvider({ children }) {
         searchValue,
         setSearchValue,
         searchTask,
+        setStatus,
         setFinished,
         deleteTask,
         taskFinished,

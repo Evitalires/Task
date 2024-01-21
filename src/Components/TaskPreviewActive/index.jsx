@@ -16,7 +16,7 @@ export default function TaskPreviewActive() {
 
       <div className="flex flex-col gap-4">
         <Typography variant="h5" className="text-left">
-          All
+          All ({tasks.length} tasks)
         </Typography>
         {tasks.map((task) => (
           <TaskCollapse key={task.id} task={task} />

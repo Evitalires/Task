@@ -1,15 +1,15 @@
 import { Typography, Button, Checkbox } from "@material-tailwind/react";
 import { IconTrash, IconEdit } from "../Icons";
 
-function Task({ text, id, setCompleted, deleteTask, editTask }) {
+function Task({ text, id, setFinished, deleteTask, editTask }) {
   return (
     <li
       className="text-left pe-4 rounded-lg hover:bg-gray-200 flex items-center gap-2 cursor-pointer "
       id={id}
-      onClick={() => setCompleted(id)}
+      onClick={setFinished}
     >
       <Checkbox
-        onClick={setCompleted}
+        onClick={setFinished}
         ripple={false}
         color="blue"
         className="h-6 w-6 rounded-full transition-all hover:scale-105 hover:before:opacity-0"

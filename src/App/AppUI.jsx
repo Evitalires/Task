@@ -24,8 +24,10 @@ function AppUI() {
     <>
       <Header></Header>
       <main className="flex flex-col gap-8 items-center">
-        <UserTaskStatus />
-        <Calendar />
+        <div className="flex flex-col lg:flex-row gap-4 items-center">
+          <UserTaskStatus />
+          <Calendar />
+        </div>
         <TaskPreview />
         <TaskStats />
       </main>

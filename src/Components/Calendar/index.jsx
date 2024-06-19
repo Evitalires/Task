@@ -5,7 +5,7 @@ export default function Calendar() {
       <>
         {/* component */}
         <div>
-          <div className="lg:grid lg:grid-cols-12 lg:gap-x-16">
+          <div >
             <div className="mt-10 text-center lg:col-start-8 lg:col-end-13 lg:row-start-1 lg:mt-9 xl:col-start-9">
               <div className="flex items-center text-gray-900">
                 <button
